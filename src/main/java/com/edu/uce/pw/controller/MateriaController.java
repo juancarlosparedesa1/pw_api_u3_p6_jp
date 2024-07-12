@@ -3,6 +3,7 @@ package com.edu.uce.pw.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,25 +27,27 @@ public class MateriaController {
 	private IMateriaService  materiaService;
 
 	// http://localhost:8080/API/v1.0/Matricula/materias/guardar
-	@PostMapping(path="/guardar")
+	@PostMapping
 	//Nivel1:  http://localhost:8080/API/v1.0/Matricula/materias
-	public void guardar(@RequestBody Materia mate) {
+	public  ResponseEntity<Materia> guardar(@RequestBody Materia mate) {
 		this.materiaService.ingresar(mate);
+		return ResponseEntity.status(201).body(mate);
 	}
 
 	// http://localhost:8080/API/v1.0/Matricula/materias/actualizar/
 	// Nivel1:http://localhost:8080/API/v1.0/Matricula/materias/actualizar/1
 
-	@PutMapping(path="/actualizar")
-	public void actualizar(@RequestBody Materia mate) {
+	@PutMapping(path="/{id}")
+	public ResponseEntity<Materia> actualizar(@RequestBody Materia mate,@PathVariable Integer id) {
 		this.materiaService.actualizar(mate);
+		return ResponseEntity.status(238).body(mate);
 	}
 
 	// http://localhost:8080/API/v1.0/Matricula/materias/actualizarParcial
-	//Nivel 1: http://localhost:8080/API/v1.0/Matricula/materias/actualizarParcial
+	//Nivel 1: http://localhost:8080/API/v1.0/Matricula/materias/4
 
-	@PatchMapping(path="/actualizar/pacial")
-	public void actualizarParcial(@RequestBody Materia mate) {
+	@PatchMapping(path="/{id}")
+	public ResponseEntity<Materia> actualizarParcial(@RequestBody Materia mate,@PathVariable Integer id) {
 		Materia mate2 = this.materiaService.buscar(mate.getId());
 		if (mate.getNombre() != null) {
 			mate2.setNombre(mate.getNombre());
@@ -56,6 +59,7 @@ public class MateriaController {
 			mate2.setNumeroCreditos(mate.getNumeroCreditos());
 		}
 		this.materiaService.actualizar(mate2);
+		return ResponseEntity.status(239).body(mate2);
 	}
 
 	// http://localhost:8080/API/v1.0/Matricula/materias/borrar
@@ -67,9 +71,10 @@ public class MateriaController {
 	//Nivel 1: http://localhost:8080/API/v1.0/Matricula/materias/3
 
 
-	@DeleteMapping(path = "borrar/{id}")
-	public void borrar(@PathVariable Integer id) {
+	@DeleteMapping(path = "/{id}")
+	public ResponseEntity<String> borrar(@PathVariable Integer id) {
 		this.materiaService.borrar(id);
+		return ResponseEntity.status(240).body("Borrado");
 	}
 
 	
