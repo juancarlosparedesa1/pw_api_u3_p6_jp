@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,7 @@ public class EstudianteController {
 	private IEstudianteService estudianteService;
 
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes/guardar
-	@PostMapping
+	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE,consumes=MediaType.APPLICATION_JSON)
 	// Nivel1: http://localhost:8080/API/v1.0/Matricula/estudiantes
 	public ResponseEntity<Estudiante> guardar(@RequestBody Estudiante est) {
 		this.estudianteService.ingresar(est);
@@ -74,7 +75,7 @@ public class EstudianteController {
 
 	// Nivel 1: http://localhost:8080/API/v1.0/Matricula/estudiantes/3
 
-	@DeleteMapping(path = "/{id}")
+	@DeleteMapping(path = "/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> borrar(@PathVariable Integer id) {
 		this.estudianteService.borrar(id);
 		return ResponseEntity.status(240).body("Borrado");
