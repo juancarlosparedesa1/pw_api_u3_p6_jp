@@ -80,9 +80,9 @@ public class MateriaController {
 	
 	// http://localhost:8080/API/v1.0/Matricula/materias/1
 
-	@GetMapping(path = "buscar/{id}")
-	public Materia buscar(@PathVariable Integer id) {
-		return this.materiaService.buscar(id);
+	@GetMapping(path = "/{id}")
+	public ResponseEntity<Materia> buscar(@PathVariable Integer id) {
+		return ResponseEntity.status(240).body(this.materiaService.buscar(id));
 	}
 	
 	// Nivel 1: http://localhost:8080/API/v1.0/Matricula/materias/buscar/creditos
