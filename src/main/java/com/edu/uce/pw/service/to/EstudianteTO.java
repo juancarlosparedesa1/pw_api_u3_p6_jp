@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class EstudianteTO implements Serializable {
+import org.springframework.hateoas.RepresentationModel;
+
+public class EstudianteTO extends RepresentationModel<EstudianteTO> implements Serializable {
 
 	/**
 	 * 
@@ -15,7 +17,7 @@ public class EstudianteTO implements Serializable {
 	private String apellido;
 	private LocalDateTime fechaNacimiento;
 
-	private List<MateriaTO> materias;
+//	private List<MateriaTO> materias;
 
 	// set and get
 	public Integer getId() {
@@ -50,13 +52,13 @@ public class EstudianteTO implements Serializable {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public List<MateriaTO> getMaterias() {
-		return materias;
-	}
-
-	public void setMaterias(List<MateriaTO> materias) {
-		this.materias = materias;
-	}
+//	public List<MateriaTO> getMaterias() {
+//		return materias;
+//	}
+//
+//	public void setMaterias(List<MateriaTO> materias) {
+//		this.materias = materias;
+//	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

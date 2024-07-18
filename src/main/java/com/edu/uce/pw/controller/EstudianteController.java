@@ -1,8 +1,12 @@
 package com.edu.uce.pw.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,7 +36,7 @@ public class EstudianteController {
 	@Autowired
 	private IMateriaService materiaService;
 
-	@PostMapping(produces = "application/json", consumes = "application/xml")
+	@PostMapping(produces = "application/json", consumes = "application/json")
 	public ResponseEntity<Estudiante> guardar(@RequestBody Estudiante est) {
 
 		HttpHeaders cabeceras = new HttpHeaders();
@@ -96,13 +100,26 @@ public class EstudianteController {
 
 	};
 
-	@GetMapping(path = "/hateoas/{id}") // excepción porque metodo get ya tenemos ocupado arriba,esto se hace si
-										// existiese un endpoint que se choque
+	@GetMapping(path = "/hateoas/{id}", produces = MediaType.APPLICATION_JSON_VALUE) // excepción porque metodo get ya
+																						// tenemos ocupado arriba,esto
+																						// se hace si
+	// existiese un endpoint que se choque
 	public EstudianteTO buscarHateoas(@PathVariable Integer id) {
 		EstudianteTO est = this.estudianteService.buscarPorId(id);
-		List<MateriaTO> lista = this.materiaService.buscarPorIdEstudiante(id);
-		est.setMaterias(lista);
+//		List<MateriaTO> lista = this.materiaService.buscarPorIdEstudiante(id);
+//		est.setMaterias(lista);
+		Link myLink = linkTo(methodOn(EstudianteController.class, buscarMateriasPorIdEstudiante(id)))
+				.withRel("susMaterias");
+		est.add(myLink);
+		Link myLink2 = linkTo(methodOn(EstudianteController.class).buscarPorId(id)).withSelfRel();
+		est.add(myLink2);
 		return est;
 	}
 
+	// URL:http://localhost:8080/API/v1.0/Matricula/estudiantes/7/materias
+
+	@GetMapping(path = "/{id}/materias", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<MateriaTO> buscarMateriasPorIdEstudiante(@PathVariable Integer id) {
+		return this.materiaService.buscarPorIdEstudiante(id);
+	}
 }
