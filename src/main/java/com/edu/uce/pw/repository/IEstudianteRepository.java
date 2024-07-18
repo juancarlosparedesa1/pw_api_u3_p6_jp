@@ -1,5 +1,7 @@
 package com.edu.uce.pw.repository;
 
+import java.util.List;
+
 import com.edu.uce.pw.repository.modelo.Estudiante;
 
 public interface IEstudianteRepository {
@@ -8,5 +10,6 @@ public interface IEstudianteRepository {
 	public Estudiante seleccionar(Integer id);
 	public void actualizar(Estudiante estudiante);
 	public void eliminar(Integer id);
+	List<Estudiante> seleccionarTodosEstudiantes();
 
 }

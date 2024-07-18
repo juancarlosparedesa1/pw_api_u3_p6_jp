@@ -113,7 +113,7 @@ public class EstudianteController {
 		return prueba;
 	}
 
-	//URL:http://localhost:8080/API/v1.0/Matricula/estudiantes/hateoas/1
+	// URL:http://localhost:8080/API/v1.0/Matricula/estudiantes/hateoas/1
 	@GetMapping(path = "/hateoas/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public EstudianteTO buscarHateoas(@PathVariable Integer id) {
 		EstudianteTO estu = this.estudianteService.buscarPorId(id);
@@ -125,9 +125,23 @@ public class EstudianteController {
 		return estu;
 	}
 
-	//URL:http://localhost:8080/API/v1.0/Matricula/estudiantes/1/materias
+	// URL:http://localhost:8080/API/v1.0/Matricula/estudiantes/1/materias
 	@GetMapping(path = "/{id}/materias", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<MateriaTO> buscarMateriaPorIdEstudiante(@PathVariable Integer id) {
 		return this.iMateriaService.buscarPorIdEstudiante(id);
+	}
+
+	// http://localhost:8080/API/v1.0/Matricula/estudiantes/todos 
+	@GetMapping(path = "/todos", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<EstudianteTO> buscarTodosHateoas() {
+
+		List<EstudianteTO> estudiantesTO = this.estudianteService.buscarTodosEstudiantesTO();
+
+		for (EstudianteTO estudianteTO : estudiantesTO) {
+			Link link = linkTo(methodOn(EstudianteController.class).buscarMateriaPorIdEstudiante(estudianteTO.getId()))
+					.withRel("susMaterias");
+			estudianteTO.add(link);
+		}
+		return estudiantesTO;
 	}
 }
