@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "estudiante")
-@JsonIgnoreProperties(value="materias")
+@JsonIgnoreProperties(value = "materias")
 public class Estudiante {
 	@Id
 
@@ -31,6 +31,8 @@ public class Estudiante {
 	private String apellido;
 	@Column(name = "estu_fechaNacimiento")
 	private LocalDateTime fechaNacimiento;
+	@Column(name = "est_genero")
+	private String genero;
 
 	@OneToMany(mappedBy = "estudiante")
 
@@ -76,5 +78,24 @@ public class Estudiante {
 	public void setMaterias(List<Materia> materias) {
 		this.materias = materias;
 	}
+
+	public String getGenero() {
+		return genero;
+	}
+
+	public void setGenero(String genero) {
+		this.genero = genero;
+	}
+
+	public String getCedula() {
+		return cedula;
+	}
+
+	public void setCedula(String cedula) {
+		this.cedula = cedula;
+	}
+
+	@Column(name = "est_cedula")
+	private String cedula;
 
 }

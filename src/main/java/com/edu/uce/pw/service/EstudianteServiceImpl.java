@@ -68,4 +68,45 @@ public class EstudianteServiceImpl implements IEstudianteService {
 		}
 		return estudiantesTO;
 	}
+
+	private Estudiante ToAEstudiante(EstudianteTO estudianteTO) {
+
+		Estudiante estudiante = new Estudiante();
+		estudiante.setApellido(estudianteTO.getApellido());
+		estudiante.setCedula(estudianteTO.getCedula());
+		estudiante.setFechaNacimiento(estudiante.getFechaNacimiento());
+		estudiante.setGenero(estudianteTO.getGenero());
+		estudiante.setId(estudianteTO.getId());
+		estudiante.setNombre(estudianteTO.getNombre());
+
+		return estudiante;
+
+	}
+
+	@Override
+	public EstudianteTO buscarPorCedula(String cedula) {
+		// TODO Auto-generated method stub
+		return this.convertir(this.estudianteRepository.seleccionarPorCedula(cedula));
+	}
+
+	@Override
+	public void actualizarPorCedula(EstudianteTO estudianteTO) {
+		// TODO Auto-generated method stub
+		Estudiante estudiante = this.ToAEstudiante(estudianteTO);
+	}
+
+	@Override
+	public void eliminarPorCedula(String cedula) {
+		// TODO Auto-generated method stub
+		// manejamos excepciones si no encuentra el estudiante
+		try {
+
+			this.estudianteRepository.eliminarPorCedula(cedula);
+		} catch (Exception e) {
+			// TODO: handle exception
+
+			System.err.println("Error en la eliminarcion" + e);
+		}
+
+	}
 }

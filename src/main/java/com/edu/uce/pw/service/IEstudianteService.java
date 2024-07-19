@@ -17,4 +17,11 @@ public interface IEstudianteService {
 	public void borrar(Integer id);
 
 	List<EstudianteTO> buscarTodosEstudiantesTO();
+
+	// taller33
+	EstudianteTO buscarPorCedula(String cedula);
+
+	public void actualizarPorCedula(EstudianteTO estudianteTO);
+
+	public void eliminarPorCedula(String cedula);
 }
